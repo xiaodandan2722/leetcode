@@ -1,0 +1,50 @@
+public class Solution {
+    public int myAtoi(String str) {
+        int flag = 1;
+        int isNum = 0;
+        str = str.replaceAll(" ", "");
+        if(str.isEmpty())
+        {
+            return 0;
+        }
+        String index = str.substring(0, 1);
+        if (index.matches("-")){
+            flag = -1;
+            str = str.substring(1);
+        }else if(index.matches("\\+")){
+            flag = 1;
+            str = str.substring(1);
+        }
+        else if(!Character.isDigit(index.charAt(0))){
+            return 0;
+        }
+        int number = 0;
+        long temp = 0;
+        char singlechar;
+        str.replaceAll(" ", "");
+        char[] stringToCharArray = str.toCharArray();
+        for(int i = 0; i < stringToCharArray.length; i++){
+            singlechar = stringToCharArray[i];
+            temp = temp*10 + Character.getNumericValue(stringToCharArray[i]);
+            if(!Character.isDigit(singlechar)){
+                break;
+            }
+            else if (temp > Integer.MAX_VALUE && flag == 1){
+                number = Integer.MAX_VALUE;
+                break;
+            }
+            else if(flag == -1 && temp*flag < Integer.MIN_VALUE){
+                number = Integer.MIN_VALUE*flag;
+                break;
+            }
+            else{
+                number = number*10 + Character.getNumericValue(stringToCharArray[i]);
+                isNum = 1;
+            }
+
+        }
+        if (isNum == 0)
+            return 0;
+    return number*flag;
+    }
+}
